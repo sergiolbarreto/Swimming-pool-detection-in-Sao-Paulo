@@ -13,9 +13,4 @@ __pycache__/
 venv/
 .env/
 
-# Ignorar arquivos grandes (caso você tenha dados de treinamento grandes, como imagens)
-*.jpg
-*.png
-*.tiff
-*.zip
 venv_pools/
