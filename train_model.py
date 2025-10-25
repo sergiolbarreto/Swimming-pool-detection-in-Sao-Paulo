@@ -1,13 +1,16 @@
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # evita erro do OpenMP
+
 from ultralytics import YOLO
 from pathlib import Path
 
 class YOLOTrainer:
     def __init__(self, 
-                 data_yaml='dataset/yolo/data.yaml', 
-                 model_name='yolov8n.pt',
+                 data_yaml='dataset/yolo_bh/data.yaml',  # dataset BH
+                 model_name='yolov8s.pt',
                  output_dir='results',
-                 project_name='pools_detection',
-                 epochs=50,
+                 project_name='bh_pools_yolo',
+                 epochs=100,
                  imgsz=640,
                  batch=16):
         
@@ -23,9 +26,6 @@ class YOLOTrainer:
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def train(self):
-        """
-        Treina o modelo YOLOv8 com os parâmetros definidos
-        """
         print("\n🚀 INICIANDO TREINAMENTO YOLOv8\n")
         print(f"📁 Dataset: {self.data_yaml}")
         print(f"🧠 Modelo base: {self.model_name}")
@@ -46,20 +46,10 @@ class YOLOTrainer:
 
         print("\n✅ Treinamento concluído!")
         print(f"📊 Resultados salvos em: {self.output_dir / self.project_name}\n")
-
         return results
 
 def main():
-    trainer = YOLOTrainer(
-        data_yaml='dataset/yolo/data.yaml',
-        model_name='yolov8s.pt',
-        output_dir='results',
-        project_name='pools_yolo',
-        epochs=50,
-        imgsz=640,
-        batch=16
-    )
-
+    trainer = YOLOTrainer()
     trainer.train()
 
 if __name__ == "__main__":

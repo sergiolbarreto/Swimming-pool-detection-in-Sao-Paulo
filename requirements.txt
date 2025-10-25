@@ -1,0 +1,27 @@
+# ===========================
+# Dependências principais
+# ===========================
+pandas==2.2.2
+numpy==1.26.4
+geopandas==0.14.4
+shapely==2.0.4
+folium==0.16.0
+requests==2.31.0
+Pillow==10.4.0
+tqdm==4.66.4
+
+# ===========================
+# Dependências opcionais / úteis
+# ===========================
+# Para notebooks e visualizações
+matplotlib==3.9.0
+seaborn==0.13.2
+
+# Para rotulagem e manipulação de dados geoespaciais
+fiona==1.9.6
+pyproj==3.6.1
+rtree==1.3.0
+
+# Para ambientes Jupyter (opcional)
+jupyterlab==4.2.3
+ipython==8.26.0

@@ -6,7 +6,6 @@ import argparse
 from PIL import Image
 import io
 import math
-import hashlib
 
 
 class ImageDownloader:
@@ -16,40 +15,6 @@ class ImageDownloader:
         self.output_dir = Path('dataset/raw_images')
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
-    def get_image_hash(self, image_path):
-        """
-        Calcula o hash MD5 de uma imagem para evitar duplicação.
-        """
-        with open(image_path, 'rb') as f:
-            return hashlib.md5(f.read()).hexdigest()
-    
-    def register_downloaded_image(self, image_path):
-        image_hash = self.get_image_hash(image_path)
-        
-        # Cria o arquivo se não existir
-        if not Path('downloaded_images.txt').exists():
-            with open('downloaded_images.txt', 'w') as f:
-                pass  # Apenas cria o arquivo vazio
-
-        # Registra o hash no arquivo
-        with open('downloaded_images.txt', 'a') as f:
-            f.write(image_hash + "\n")
-
-    # Função para verificar se a imagem já foi baixada
-    def is_image_downloaded(self, image_path):
-        image_hash = self.get_image_hash(image_path)
-        
-        # Verifica se o arquivo existe antes de ler
-        if not Path('downloaded_images.txt').exists():
-            return False  # Se o arquivo não existe, significa que nenhuma imagem foi baixada ainda
-
-        # Lê os hashes das imagens já baixadas
-        with open('downloaded_images.txt', 'r') as f:
-            downloaded_images = set(f.read().splitlines())
-        
-        # Verifica se o hash já está na lista
-        return image_hash in downloaded_images
-
     def download_google(self, lat, lon, cell_id, zoom=20, size="640x640"):
         """Download via Google Maps Static API"""
         if not self.api_key:
@@ -65,27 +30,24 @@ class ImageDownloader:
             'scale': 2  # Alta resolução
         }
         
-        response = requests.get(url, params=params, timeout=30)
-        
-        if response.status_code == 200:
-            filename = self.output_dir / f"cell_{cell_id:04d}.jpg"
+        try:
+            response = requests.get(url, params=params, timeout=30)
             
-            # Verifica se a imagem já foi baixada
-            if self.is_image_downloaded(filename):
-                print(f"Imagem {filename} já foi baixada. Pulando...")
-                return str(filename), False  # Imagem já foi baixada, pulando
-            
-            # Converter para JPG e salvar
-            img = Image.open(io.BytesIO(response.content))
-            img = img.convert('RGB')
-            img.save(filename, 'JPEG', quality=95)
-            
-            # Registra o hash da imagem
-            self.register_downloaded_image(filename)
-            
-            return str(filename), True
-        else:
-            print(f"❌ Erro Google: {response.status_code} - {response.text[:100]}")
+            if response.status_code == 200:
+                filename = self.output_dir / f"cell_{cell_id:04d}.jpg"
+                
+                # Converter para JPG e salvar
+                img = Image.open(io.BytesIO(response.content))
+                img = img.convert('RGB')
+                img.save(filename, 'JPEG', quality=95)
+                
+                return str(filename), True
+            else:
+                error_msg = response.text[:100] if response.text else 'Unknown error'
+                print(f"❌ Erro Google: {response.status_code} - {error_msg}")
+                return None, False
+        except Exception as e:
+            print(f"❌ Erro ao baixar: {e}")
             return None, False
     
     def download_esri(self, lat, lon, cell_id, width=640, height=640):
@@ -116,16 +78,8 @@ class ImageDownloader:
             if response.status_code == 200:
                 filename = self.output_dir / f"cell_{cell_id:04d}.jpg"
                 
-                # Verifica se a imagem já foi baixada
-                if self.is_image_downloaded(filename):
-                    print(f"Imagem {filename} já foi baixada. Pulando...")
-                    return str(filename), False  # Imagem já foi baixada, pulando
-                
                 img = Image.open(io.BytesIO(response.content))
                 img.save(filename, 'JPEG', quality=95)
-                
-                # Registra o hash da imagem
-                self.register_downloaded_image(filename)
                 
                 return str(filename), True
             else:

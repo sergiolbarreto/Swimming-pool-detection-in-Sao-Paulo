@@ -333,12 +333,12 @@ if __name__ == "__main__":
     
     # 2. Criar grid de 1km²
     print("Criando grid de São Paulo...")
-    grid = sampler.create_grid(cell_size_km=1.0)
+    grid = sampler.create_grid(cell_size_km=0.5)
     print(f"Grid criado com {len(grid)} células")
     
     # 3. Amostragem estratificada
     print("\nRealizando amostragem estratificada...")
-    sampled = sampler.stratified_sample(grid, total_samples=100)
+    sampled = sampler.stratified_sample(grid, total_samples=600, random_seed=42)
     print(f"Amostradas {len(sampled)} células")
     print(f"\nDistribuição por estrato:")
     print(sampled['stratum'].value_counts())
@@ -353,21 +353,3 @@ if __name__ == "__main__":
         index=False
     )
     print("\nCoordenadas exportadas para 'sampled_coordinates.csv'")
-    
-    # 6. Download de imagens (ESRI gratuito para teste)
-    print("\n" + "="*50)
-    print("DOWNLOAD DE IMAGENS")
-    print("="*50)
-    print("\nPara Google Maps, você precisa de uma API key.")
-    print("Para testar com ESRI (gratuito, menor resolução), descomente abaixo:\n")
-    
-    # Descomente para download real:
-    # downloader = SatelliteImageDownloader(provider='esri')
-    # results = downloader.download_batch(sampled.head(5), delay=1.0)  # Testar com 5 primeiras
-    # print(f"\n{len(results[results['status']=='success'])} imagens baixadas com sucesso")
-    
-    print("\n✅ Pipeline de amostragem concluído!")
-    print("\nPróximos passos:")
-    print("1. Obter API key do Google Maps (https://console.cloud.google.com)")
-    print("2. Rodar download em batch")
-    print("3. Anotar piscinas nas imagens baixadas")

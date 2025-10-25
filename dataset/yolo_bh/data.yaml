@@ -1,0 +1,6 @@
+path: C:/Users/tempe/Documents/pools-sp/Swimming-pool-detection-in-Sao-Paulo/dataset/yolo_bh
+train: images
+val: images
+
+names:
+  0: pool
