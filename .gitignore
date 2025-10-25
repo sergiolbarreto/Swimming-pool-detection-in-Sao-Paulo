@@ -1,0 +1,21 @@
+# Ignorar arquivos temporários do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Ignorar arquivos de configuração do IDE
+.vscode/
+.idea/
+
+# Ignorar arquivos de ambiente virtual
+venv/
+.env/
+
+# Ignorar arquivos grandes (caso você tenha dados de treinamento grandes, como imagens)
+*.jpg
+*.png
+*.tiff
+*.zip
+venv_pools/
