@@ -1,4 +1,0 @@
-Piscinas detectadas: 1333
-Média por imagem: 0.96
-Densidade: 16.48
-Estimativa total SP: 25,073
