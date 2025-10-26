@@ -1,9 +1,6 @@
-# Dataset de Piscinas de São Paulo
-path: C:\Users\tempe\Documents\pools-sp\Swimming-pool-detection-in-Sao-Paulo\dataset\yolo_sp
-val: val/images
-test: test/images
-
+# Dataset SÃ£o Paulo Unificado
+train:
+val: images
+test:
 names:
   0: pool
-
-nc: 1

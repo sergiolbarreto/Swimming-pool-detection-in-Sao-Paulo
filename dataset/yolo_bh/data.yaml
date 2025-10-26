@@ -1,6 +1,11 @@
-path: C:/Users/tempe/Documents/pools-sp/Swimming-pool-detection-in-Sao-Paulo/dataset/yolo_bh
+# Dataset de Piscinas de Belo Horizonte
+path: dataset/yolo_bh
 train: images
 val: images
+test: images
 
+# Classes
 names:
   0: pool
+
+nc: 1

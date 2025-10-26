@@ -1,0 +1,11 @@
+date: 2025-10-26 19:47:23
+epochs: 50
+batch: 16
+imgsz: 640
+mAP50: 0.91585
+mAP50-95: 0.62026
+precision: 0.88769
+recall: 0.84488
+box_loss: 0.98668
+cls_loss: 0.52903
+dfl_loss: 0.80554
