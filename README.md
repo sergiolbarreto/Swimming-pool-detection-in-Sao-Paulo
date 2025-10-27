@@ -233,7 +233,7 @@ results/
 
 6. **Rodar detecção**
    ```bash
-   python3 detect_sp_all.py
+   python3 detect_sp.py
    ```
 
 7. **Gerar estimativa**
